@@ -3,6 +3,7 @@ import TextForm from "./components/ui_components/TextForm.vue";
 export default {
   name: "AppHeader",
   components: { TextForm },
+  emits: ["text-filter", "submit-filter"],
 };
 </script>
 
@@ -11,6 +12,8 @@ export default {
     <div class="container d-flex justify-content-between">
       <h2>BOOLFLIX</h2>
       <text-form
+        @typing="$emit('text-filter', $event)"
+        @submit-text="$emit('submit-filter', $event)"
         placeholder="Cerca un film o una serie"
         :btnClasses="['btn-outline-secondary']"
         btnLabel="Cerca"
