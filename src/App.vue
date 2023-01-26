@@ -3,9 +3,10 @@ import axios from "axios";
 import { store } from "./components/data/store";
 import { dbMovieUri, apiKey } from "./components/data";
 import AppHeader from "./AppHeader.vue";
+import AppMain from "./AppMain.vue";
 export default {
   name: "BoolFlix",
-  components: { AppHeader },
+  components: { AppHeader, AppMain },
   data() {
     return {
       nameFilter: "",
@@ -46,6 +47,7 @@ export default {
   <app-header
     @text-filter="setNameFilter"
     @submit-filter="fetchMovieFilter"></app-header>
+  <app-main :movies="store.movies"></app-main>
 </template>
 
 <style></style>
