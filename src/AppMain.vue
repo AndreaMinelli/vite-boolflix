@@ -5,6 +5,7 @@ export default {
   components: { AppSection },
   props: {
     movies: Array,
+    series: Array,
   },
 };
 </script>
@@ -14,4 +15,8 @@ export default {
     title="Film"
     rowSplit="row-cols-4"
     :dataToRender="movies"></app-section>
+  <app-section
+    title="Series"
+    rowSplit="row-cols-4"
+    :dataToRender="series"></app-section>
 </template>

@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <section>
+  <section class="mb-3">
     <div class="container">
       <h1>{{ title }}</h1>
       <div class="row" :class="rowSplit">

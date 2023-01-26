@@ -17,7 +17,7 @@ export default {
     setNameFilter(name) {
       this.nameFilter = name;
     },
-    fetchMovieFilter() {
+    fetchFilterResult() {
       const query = {
         params: {
           api_key: apiKey,
@@ -26,13 +26,26 @@ export default {
         },
       };
       axios.get(`${dbMovieUri}/search/movie`, query).then((res) => {
-        const movieList = res.data.results;
-        store.movies = movieList.map((movie) => {
+        const moviesList = res.data.results;
+        store.movies = moviesList.map((movie) => {
           const { title, original_title, original_language, vote_average } =
             movie;
           return {
             title,
             originalTitle: original_title,
+            language: original_language,
+            vote: vote_average,
+          };
+        });
+      });
+      axios.get(`${dbMovieUri}/search/tv`, query).then((res) => {
+        const seriesList = res.data.results;
+        store.series = seriesList.map((serie) => {
+          const { name, original_name, original_language, vote_average } =
+            serie;
+          return {
+            title: name,
+            originalTitle: original_name,
             language: original_language,
             vote: vote_average,
           };
@@ -46,8 +59,8 @@ export default {
 <template>
   <app-header
     @text-filter="setNameFilter"
-    @submit-filter="fetchMovieFilter"></app-header>
-  <app-main :movies="store.movies"></app-main>
+    @submit-filter="fetchFilterResult"></app-header>
+  <app-main :movies="store.movies" :series="store.series"></app-main>
 </template>
 
 <style></style>
