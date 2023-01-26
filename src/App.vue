@@ -29,6 +29,7 @@ export default {
         const moviesList = res.data.results;
         store.movies = moviesList.map((movie) => {
           const {
+            id,
             title,
             original_title,
             original_language,
@@ -36,6 +37,7 @@ export default {
             poster_path,
           } = movie;
           return {
+            id,
             title,
             originalTitle: original_title,
             language: original_language,

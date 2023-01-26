@@ -2,7 +2,13 @@
 import { langFlag } from "./components/data";
 export default {
   name: "AppCard",
+  data() {
+    return {
+      maxRating: 5,
+    };
+  },
   props: {
+    id: Number,
     title: String,
     originalTitle: String,
     language: String,
@@ -12,6 +18,9 @@ export default {
   computed: {
     langCheck() {
       return langFlag.includes(this.language);
+    },
+    voteCalc() {
+      return Math.ceil(this.vote / 2);
     },
   },
   methods: {
@@ -27,7 +36,7 @@ export default {
   <div>
     <p>{{ title }}</p>
     <p>{{ originalTitle }}</p>
-    <img :src="`${imageUrl}`" alt="" />
+    <!-- <img :src="`${imageUrl}`" alt="" /> -->
     <figure v-if="langCheck" class="w-25">
       <img
         :src="buildFlagImageUrl(language)"
@@ -35,6 +44,13 @@ export default {
         class="img-fluid" />
     </figure>
     <p v-else class="text-uppercase">{{ language }}</p>
-    <p>{{ vote }}</p>
+    <font-awesome-icon
+      v-for="n in voteCalc"
+      :key="`${id}/${n}`"
+      icon="fa-solid fa-star" />
+    <font-awesome-icon
+      v-for="n in maxRating - voteCalc"
+      :key="`${n}/${id}`"
+      icon="fa-regular fa-star" />
   </div>
 </template>

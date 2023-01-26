@@ -18,6 +18,7 @@ export default {
       <div class="row" :class="rowSplit">
         <app-card
           v-for="data in dataToRender"
+          :key="data.id"
           v-bind="data"
           class="col border"></app-card>
       </div>
