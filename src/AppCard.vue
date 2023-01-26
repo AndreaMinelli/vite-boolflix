@@ -7,6 +7,7 @@ export default {
     originalTitle: String,
     language: String,
     vote: Number,
+    imageUrl: String,
   },
   computed: {
     langCheck() {
@@ -26,6 +27,7 @@ export default {
   <div>
     <p>{{ title }}</p>
     <p>{{ originalTitle }}</p>
+    <img :src="`${imageUrl}`" alt="" />
     <figure v-if="langCheck" class="w-25">
       <img
         :src="buildFlagImageUrl(language)"

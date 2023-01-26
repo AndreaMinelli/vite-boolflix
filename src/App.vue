@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
 import { store } from "./components/data/store";
-import { dbMovieUri, apiKey } from "./components/data";
+import { dbMovieUri, apiKey, posterPath } from "./components/data";
 import AppHeader from "./AppHeader.vue";
 import AppMain from "./AppMain.vue";
 export default {
@@ -28,29 +28,44 @@ export default {
       axios.get(`${dbMovieUri}/search/movie`, query).then((res) => {
         const moviesList = res.data.results;
         store.movies = moviesList.map((movie) => {
-          const { title, original_title, original_language, vote_average } =
-            movie;
+          const {
+            title,
+            original_title,
+            original_language,
+            vote_average,
+            poster_path,
+          } = movie;
           return {
             title,
             originalTitle: original_title,
             language: original_language,
             vote: vote_average,
+            imageUrl: this.buildPosterImage(poster_path),
           };
         });
       });
       axios.get(`${dbMovieUri}/search/tv`, query).then((res) => {
         const seriesList = res.data.results;
         store.series = seriesList.map((serie) => {
-          const { name, original_name, original_language, vote_average } =
-            serie;
+          const {
+            name,
+            original_name,
+            original_language,
+            vote_average,
+            poster_path,
+          } = serie;
           return {
             title: name,
             originalTitle: original_name,
             language: original_language,
             vote: vote_average,
+            imageUrl: this.buildPosterImage(poster_path),
           };
         });
       });
+    },
+    buildPosterImage(url) {
+      return url ? posterPath + url : "";
     },
   },
 };
