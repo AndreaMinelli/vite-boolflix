@@ -1,8 +1,8 @@
 <script>
-import AppCard from "./AppCard.vue";
+import ProductionCard from "./ProductionCard.vue";
 export default {
   name: "AppSection",
-  components: { AppCard },
+  components: { ProductionCard },
   props: {
     title: String,
     rowSplit: String,
@@ -16,11 +16,11 @@ export default {
     <div class="container">
       <h1>{{ title }}</h1>
       <div class="row" :class="rowSplit">
-        <app-card
+        <production-card
           v-for="data in dataToRender"
           :key="data.id"
           v-bind="data"
-          class="col border"></app-card>
+          class="col border"></production-card>
       </div>
     </div>
   </section>

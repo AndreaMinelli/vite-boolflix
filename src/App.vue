@@ -2,8 +2,8 @@
 import axios from "axios";
 import { store } from "./components/data/store";
 import { dbMovieUri, apiKey, posterPath } from "./components/data";
-import AppHeader from "./AppHeader.vue";
-import AppMain from "./AppMain.vue";
+import AppHeader from "./components/AppHeader.vue";
+import AppMain from "./components/AppMain.vue";
 export default {
   name: "BoolFlix",
   components: { AppHeader, AppMain },
@@ -13,11 +13,51 @@ export default {
       store,
     };
   },
+  computed: {
+    moviesMap() {
+      return store.movies.map((movie) => {
+        const {
+          id,
+          title,
+          original_title,
+          original_language,
+          vote_average,
+          poster_path,
+        } = movie;
+        return {
+          id,
+          title,
+          originalTitle: original_title,
+          language: original_language,
+          vote: vote_average,
+          imageUrl: this.buildPosterImage(poster_path),
+        };
+      });
+    },
+    seriesMap() {
+      return store.series.map((serie) => {
+        const {
+          name,
+          original_name,
+          original_language,
+          vote_average,
+          poster_path,
+        } = serie;
+        return {
+          title: name,
+          originalTitle: original_name,
+          language: original_language,
+          vote: vote_average,
+          imageUrl: this.buildPosterImage(poster_path),
+        };
+      });
+    },
+  },
   methods: {
     setNameFilter(name) {
       this.nameFilter = name;
     },
-    fetchFilterResult() {
+    fetchSearchApi(endpoint, target) {
       const query = {
         params: {
           api_key: apiKey,
@@ -25,46 +65,23 @@ export default {
           query: this.nameFilter,
         },
       };
-      axios.get(`${dbMovieUri}/search/movie`, query).then((res) => {
-        const moviesList = res.data.results;
-        store.movies = moviesList.map((movie) => {
-          const {
-            id,
-            title,
-            original_title,
-            original_language,
-            vote_average,
-            poster_path,
-          } = movie;
-          return {
-            id,
-            title,
-            originalTitle: original_title,
-            language: original_language,
-            vote: vote_average,
-            imageUrl: this.buildPosterImage(poster_path),
-          };
+      axios
+        .get(`${dbMovieUri}/${endpoint}`, query)
+        .then((res) => {
+          store[target] = res.data.results;
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      });
-      axios.get(`${dbMovieUri}/search/tv`, query).then((res) => {
-        const seriesList = res.data.results;
-        store.series = seriesList.map((serie) => {
-          const {
-            name,
-            original_name,
-            original_language,
-            vote_average,
-            poster_path,
-          } = serie;
-          return {
-            title: name,
-            originalTitle: original_name,
-            language: original_language,
-            vote: vote_average,
-            imageUrl: this.buildPosterImage(poster_path),
-          };
-        });
-      });
+    },
+    getProduction() {
+      if (!this.nameFilter) {
+        store.movies = [];
+        store.series = [];
+        return;
+      }
+      this.fetchSearchApi("search/movie", "movies");
+      this.fetchSearchApi("search/tv", "series");
     },
     buildPosterImage(url) {
       return url ? posterPath + url : "";
@@ -76,8 +93,8 @@ export default {
 <template>
   <app-header
     @text-filter="setNameFilter"
-    @submit-filter="fetchFilterResult"></app-header>
-  <app-main :movies="store.movies" :series="store.series"></app-main>
+    @submit-filter="getProduction"></app-header>
+  <app-main :movies="moviesMap" :series="seriesMap"></app-main>
 </template>
 
 <style></style>

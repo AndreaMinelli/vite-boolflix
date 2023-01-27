@@ -1,7 +1,7 @@
 <script>
-import { langFlag } from "./components/data";
+import { langFlag } from "./data";
 export default {
-  name: "AppCard",
+  name: "ProductionCard",
   data() {
     return {
       maxRating: 5,

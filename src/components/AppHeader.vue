@@ -1,5 +1,5 @@
 <script>
-import TextForm from "./components/ui_components/TextForm.vue";
+import TextForm from "./ui_components/TextForm.vue";
 export default {
   name: "AppHeader",
   components: { TextForm },
