@@ -23,6 +23,7 @@ export default {
           original_language,
           vote_average,
           poster_path,
+          overview,
         } = movie;
         return {
           id,
@@ -31,6 +32,7 @@ export default {
           language: original_language,
           vote: vote_average,
           imageUrl: this.buildPosterImage(poster_path),
+          overview,
         };
       });
     },
@@ -42,6 +44,7 @@ export default {
           original_language,
           vote_average,
           poster_path,
+          overview,
         } = serie;
         return {
           title: name,
@@ -49,6 +52,7 @@ export default {
           language: original_language,
           vote: vote_average,
           imageUrl: this.buildPosterImage(poster_path),
+          overview,
         };
       });
     },
