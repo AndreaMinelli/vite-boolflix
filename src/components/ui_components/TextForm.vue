@@ -20,10 +20,10 @@ export default {
     <input
       v-model="text"
       @keyup="$emit('typing', text)"
-      :placeholder="placeholder"
+      :placeholder="placeholder || 'Cerca...'"
       type="text"
       class="form-control" />
-    <button class="btn" :class="btnClasses">{{ btnLabel }}</button>
+    <button class="btn" :class="btnClasses">{{ btnLabel || "Cerca" }}</button>
   </form>
 </template>
 
