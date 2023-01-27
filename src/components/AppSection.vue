@@ -15,12 +15,12 @@ export default {
   <section class="mb-3">
     <div class="container">
       <h1>{{ title }}</h1>
-      <div class="row" :class="rowSplit">
+      <div class="row g-3" :class="rowSplit">
         <production-card
           v-for="data in dataToRender"
           :key="data.id"
           v-bind="data"
-          class="col border"></production-card>
+          class="col"></production-card>
       </div>
     </div>
   </section>

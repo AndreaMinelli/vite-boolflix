@@ -32,10 +32,10 @@ export default {
 </script>
 
 <template>
-  <div>
-    <p>{{ title }}</p>
+  <div class="prod-card">
+    <img :src="`${imageUrl}`" :alt="title" class="poster-img" />
+    <!-- <p>{{ title }}</p>
     <p>{{ originalTitle }}</p>
-    <!-- <img :src="`${imageUrl}`" alt="" /> -->
     <figure v-if="langCheck" class="w-25">
       <img
         :src="buildFlagImageUrl(language)"
@@ -50,6 +50,19 @@ export default {
     <font-awesome-icon
       v-for="n in maxRating - voteCalc"
       :key="`${n}/${id}`"
-      icon="fa-regular fa-star" />
+      icon="fa-regular fa-star" /> -->
   </div>
 </template>
+
+<style lang="scss" scoped>
+.prod-card {
+  height: 400px;
+
+  .poster-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid grey;
+  }
+}
+</style>
