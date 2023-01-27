@@ -15,11 +15,21 @@ export default {
         @typing="$emit('text-filter', $event)"
         @submit-text="$emit('submit-filter', $event)"
         placeholder="Cerca un film o una serie"
-        :btnClasses="['btn-outline-secondary']"
+        :btnClasses="['btn-secondary']"
         btnLabel="Cerca"
-        class="w-50"></text-form>
+        class="w-50 d-flex align-items-center"></text-form>
     </div>
   </header>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+header {
+  background-color: black;
+  padding: 15px;
+
+  h2 {
+    margin: 0;
+    color: red;
+  }
+}
+</style>

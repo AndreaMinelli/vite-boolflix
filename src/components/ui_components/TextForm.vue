@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="$emit('submit-text')" class="input-group mb-3">
+  <form @submit.prevent="$emit('submit-text')" class="input-group">
     <input
       v-model="text"
       @keyup="$emit('typing', text)"
