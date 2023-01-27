@@ -18,7 +18,7 @@ export default {
 <template>
   <form @submit.prevent="$emit('submit-text')" class="input-group">
     <input
-      v-model="text"
+      v-model.trim="text"
       @keyup="$emit('typing', text)"
       :placeholder="placeholder || 'Cerca...'"
       type="text"

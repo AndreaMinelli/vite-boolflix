@@ -56,13 +56,21 @@ export default {
         };
       });
     },
+    genresList() {
+      const genresList = [...store.moviesGenres, ...store.seriesGenres];
+      const genres = genresList.map((genre) => {
+        const { name } = genre;
+        return name;
+      });
+      return [...new Set(genres)];
+    },
   },
   methods: {
     setNameFilter(name) {
       this.nameFilter = name;
     },
-    fetchSearchApi(endpoint, target) {
-      const query = {
+    fetchApi(endpoint, target, array) {
+      const config = {
         params: {
           api_key: apiKey,
           lenguage: "en-Us",
@@ -71,9 +79,9 @@ export default {
       };
       store.isLoading = true;
       axios
-        .get(`${dbMovieUri}/${endpoint}`, query)
+        .get(`${dbMovieUri}/${endpoint}`, config)
         .then((res) => {
-          store[target] = res.data.results;
+          store[target] = res.data[array];
         })
         .catch((err) => {
           console.error(err);
@@ -89,18 +97,27 @@ export default {
         store.isLoading = true;
         return;
       }
-      this.fetchSearchApi("search/movie", "movies");
-      this.fetchSearchApi("search/tv", "series");
+      this.fetchApi("search/movie", "movies", "result");
+      this.fetchApi("search/tv", "series", "result");
+    },
+    setGenresFilter(genres) {
+      console.log(genres);
     },
     buildPosterImage(url) {
       return url ? posterPath + url : "";
     },
+  },
+  created() {
+    this.fetchApi("/genre/movie/list", "moviesGenres", "genres");
+    this.fetchApi("/genre/tv/list", "seriesGenres", "genres");
   },
 };
 </script>
 
 <template>
   <app-header
+    :genresList="genresList"
+    @selected-genres="setGenresFilter"
     @text-filter="setNameFilter"
     @submit-filter="getProduction"></app-header>
   <app-main
