@@ -25,3 +25,14 @@ export default {
     </div>
   </section>
 </template>
+
+<style lang="scss" scoped>
+section {
+  padding: 15px 0;
+}
+h1 {
+  margin-bottom: 20px;
+  color: white;
+  font-size: 25px;
+}
+</style>

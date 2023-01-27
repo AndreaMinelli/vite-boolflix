@@ -25,8 +25,7 @@ export default {
   },
   methods: {
     buildFlagImageUrl(flag) {
-      return new URL(`./components/img/flags/${flag}.png`, import.meta.url)
-        .href;
+      return new URL(`../assets/img/flags/${flag}.png`, import.meta.url).href;
     },
   },
 };
