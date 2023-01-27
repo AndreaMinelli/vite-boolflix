@@ -65,6 +65,7 @@ export default {
           query: this.nameFilter,
         },
       };
+      store.isLoading = true;
       axios
         .get(`${dbMovieUri}/${endpoint}`, query)
         .then((res) => {
@@ -72,12 +73,16 @@ export default {
         })
         .catch((err) => {
           console.error(err);
+        })
+        .then(() => {
+          if (store[target].length) store.isLoading = false;
         });
     },
     getProduction() {
       if (!this.nameFilter) {
         store.movies = [];
         store.series = [];
+        store.isLoading = true;
         return;
       }
       this.fetchSearchApi("search/movie", "movies");
@@ -94,7 +99,10 @@ export default {
   <app-header
     @text-filter="setNameFilter"
     @submit-filter="getProduction"></app-header>
-  <app-main :movies="moviesMap" :series="seriesMap"></app-main>
+  <app-main
+    v-if="!store.isLoading"
+    :movies="moviesMap"
+    :series="seriesMap"></app-main>
 </template>
 
 <style></style>
