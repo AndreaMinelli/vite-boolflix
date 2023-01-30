@@ -61,7 +61,9 @@ export default {
               :icon="getStars(n)"
               class="fa-solid fa-star" />
           </li>
-          <li><span class="sub-info">Overview:</span>{{ overview }}</li>
+          <li v-if="overview">
+            <span class="sub-info">Overview:</span>{{ overview }}
+          </li>
         </ul>
       </div>
     </div>
