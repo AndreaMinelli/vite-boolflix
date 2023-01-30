@@ -12,9 +12,9 @@ export default {
 </script>
 
 <template>
-  <section class="mb-3">
+  <section class="mb-3" :id="title">
     <div class="container">
-      <h1>{{ title }}</h1>
+      <h1 class="text-capitalize">{{ title }}</h1>
       <div class="row g-3" :class="rowSplit">
         <production-card
           v-for="data in dataToRender"

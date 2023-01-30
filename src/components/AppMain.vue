@@ -27,11 +27,11 @@ export default {
     </div>
     <div v-else>
       <app-section
-        title="Film"
+        title="film"
         rowSplit="row-cols-4"
         :dataToRender="movies"></app-section>
       <app-section
-        title="Series"
+        title="series"
         rowSplit="row-cols-4"
         :dataToRender="series"></app-section>
     </div>
