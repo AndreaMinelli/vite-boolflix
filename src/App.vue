@@ -92,6 +92,7 @@ export default {
       this.nameFilter = name;
     },
     fetchApi(endpoint, target, array) {
+      store.isLoading = true;
       axios
         .get(`${dbMovieUri}/${endpoint}`, this.axiosConfig)
         .then((res) => {
@@ -99,11 +100,17 @@ export default {
         })
         .catch((err) => {
           console.error(err);
+        })
+        .then(() => {
+          store.isLoading = false;
         });
     },
     getProduction() {
       if (!this.nameFilter) {
         return;
+      }
+      if (store.firstLoad) {
+        store.firstLoad = false;
       }
       store.movies = [];
       store.series = [];

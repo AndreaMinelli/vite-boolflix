@@ -36,6 +36,7 @@ export default {
 <style lang="scss" scoped>
 header {
   padding: 15px;
+  height: 70px;
 
   h2 {
     margin: 0;

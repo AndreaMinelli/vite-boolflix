@@ -5,4 +5,6 @@ export const store = reactive({
   series: [],
   moviesGenres: [],
   seriesGenres: [],
+  firstLoad: true,
+  isLoading: false,
 });
