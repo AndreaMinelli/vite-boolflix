@@ -110,13 +110,10 @@ export default {
       this.getGenresFilter(this.genresFiter, "movies");
       this.getGenresFilter(this.genresFiter, "series");
     },
-    getGenresFilter(id, target) {
-      store[target] = store[target].filter((el) => {
-        return el.genre_ids.includes(id);
-      });
-    },
     buildPosterImage(url) {
-      return url ? posterPath + url : "";
+      return url
+        ? posterPath + url
+        : "https://cringemdb.com/img/movie-poster-placeholder.png";
     },
   },
   created() {
