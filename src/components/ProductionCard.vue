@@ -20,14 +20,17 @@ export default {
     langCheck() {
       return langFlag.includes(this.language);
     },
-    voteCalc() {
-      return Math.ceil(this.vote / 2);
-    },
     buildFlagImageUrl() {
       return new URL(
         `../assets/img/flags/${this.language}.png`,
         import.meta.url
       ).href;
+    },
+  },
+  methods: {
+    getStars(n) {
+      const vote = Math.ceil(this.vote / 2);
+      return n <= vote ? "fa-solid fa-star" : "fa-regular fa-star";
     },
   },
 };
@@ -53,14 +56,9 @@ export default {
           <li>
             <span class="sub-info">Voto:</span>
             <font-awesome-icon
-              v-for="n in voteCalc"
+              v-for="n in maxRating"
               :key="`${id}/${n}`"
-              icon="fa-solid fa-star"
-              class="fa-solid fa-star" />
-            <font-awesome-icon
-              v-for="n in maxRating - voteCalc"
-              :key="`${n}/${id}`"
-              icon="fa-regular fa-star"
+              :icon="getStars(n)"
               class="fa-solid fa-star" />
           </li>
           <li><span class="sub-info">Overview:</span>{{ overview }}</li>

@@ -11,9 +11,19 @@ export default {
     return {
       nameFilter: "",
       store,
+      genresFiter: null,
     };
   },
   computed: {
+    axiosConfig() {
+      return {
+        params: {
+          api_key: apiKey,
+          lenguage: "en-Us",
+          query: this.nameFilter,
+        },
+      };
+    },
     moviesMap() {
       return store.movies.map((movie) => {
         const {
@@ -57,8 +67,8 @@ export default {
       });
     },
     genresList() {
-      const genresList = [...store.moviesGenres, ...store.seriesGenres];
-      const genres = genresList.map((genre) => {
+      store.genresList = [...store.moviesGenres, ...store.seriesGenres];
+      const genres = store.genresList.map((genre) => {
         const { name } = genre;
         return name;
       });
@@ -70,38 +80,40 @@ export default {
       this.nameFilter = name;
     },
     fetchApi(endpoint, target, array) {
-      const config = {
-        params: {
-          api_key: apiKey,
-          lenguage: "en-Us",
-          query: this.nameFilter,
-        },
-      };
-      store.isLoading = true;
       axios
-        .get(`${dbMovieUri}/${endpoint}`, config)
+        .get(`${dbMovieUri}/${endpoint}`, this.axiosConfig)
         .then((res) => {
           store[target] = res.data[array];
         })
         .catch((err) => {
           console.error(err);
-        })
-        .then(() => {
-          if (store[target].length) store.isLoading = false;
         });
     },
     getProduction() {
       if (!this.nameFilter) {
-        store.movies = [];
-        store.series = [];
-        store.isLoading = true;
         return;
       }
-      this.fetchApi("search/movie", "movies", "result");
-      this.fetchApi("search/tv", "series", "result");
+      store.movies = [];
+      store.series = [];
+      this.fetchApi("search/movie", "movies", "results");
+      this.fetchApi("search/tv", "series", "results");
     },
     setGenresFilter(genres) {
-      console.log(genres);
+      if (!this.genresList.includes(genres)) {
+        this.genresFiter = null;
+      } else {
+        const genId = store.genresList.find((genre) => {
+          return genre.name === genres;
+        });
+        this.genresFiter = genId.id;
+      }
+      this.getGenresFilter(this.genresFiter, "movies");
+      this.getGenresFilter(this.genresFiter, "series");
+    },
+    getGenresFilter(id, target) {
+      store[target] = store[target].filter((el) => {
+        return el.genre_ids.includes(id);
+      });
     },
     buildPosterImage(url) {
       return url ? posterPath + url : "";
@@ -120,10 +132,7 @@ export default {
     @selected-genres="setGenresFilter"
     @text-filter="setNameFilter"
     @submit-filter="getProduction"></app-header>
-  <app-main
-    v-if="!store.isLoading"
-    :movies="moviesMap"
-    :series="seriesMap"></app-main>
+  <app-main :movies="moviesMap" :series="seriesMap"></app-main>
 </template>
 
 <style lang="scss">
