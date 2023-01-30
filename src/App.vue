@@ -25,7 +25,13 @@ export default {
       };
     },
     moviesMap() {
-      return store.movies.map((movie) => {
+      let filteredMovies = store.movies;
+      if (this.genresFiter) {
+        filteredMovies = store.movies.filter((movie) => {
+          return movie.genre_ids.includes(this.genresFiter);
+        });
+      }
+      return filteredMovies.map((movie) => {
         const {
           id,
           title,
@@ -47,7 +53,13 @@ export default {
       });
     },
     seriesMap() {
-      return store.series.map((serie) => {
+      let filteredSeries = store.series;
+      if (this.genresFiter) {
+        filteredSeries = store.series.filter((serie) => {
+          return serie.genre_ids.includes(this.genresFiter);
+        });
+      }
+      return filteredSeries.map((serie) => {
         const {
           name,
           original_name,
@@ -107,8 +119,6 @@ export default {
         });
         this.genresFiter = genId.id;
       }
-      this.getGenresFilter(this.genresFiter, "movies");
-      this.getGenresFilter(this.genresFiter, "series");
     },
     buildPosterImage(url) {
       return url
